@@ -24,6 +24,7 @@ namespace Dead_By_Devcade
 
         private bool active { get; set; }
         private Vector2 curPostion;
+        private Random RNG = new Random();
 
         public SkillCheckLogic()
         {
@@ -49,7 +50,8 @@ namespace Dead_By_Devcade
 
             } else
             {
-                curPostion = new Vector2()
+                int val = RNG.Next(0, 360);
+                curPostion = new Vector2();
             }
         }
 
@@ -57,8 +59,18 @@ namespace Dead_By_Devcade
         {
             if (active == true)
             {
-                sb.Draw(ring, new Vector2(windowSize.Center.X / 2, windowSize.Center.Y / 2), null, Color.White, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
-                sb.Draw(skill, new Vector2((windowSize.Center.X + (ring.Width/2)/ 2) - (), ((windowSize.Center.Y + (ring.Height / 2)) / 2)), null, Color.White, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+                sb.Draw(ring, new Vector2(windowSize.Center.X / 2f, windowSize.Center.Y / 2f), null, Color.White, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
+                int val = RNG.Next(0, 360);
+                sb.Draw(skill, new Vector2(
+                    (float)(((windowSize.Center.X / 2f) + (ring.Height / 4f)) + ((ring.Height / 4f) - 10)* (Math.Cos(val))),
+                    (float)(((windowSize.Center.Y / 2f) + (ring.Width / 4f)) + ((ring.Width / 4f) - 10)* (Math.Sin(val)))),
+                    null, 
+                    Color.White, 
+                    val + 119.9f, 
+                    Vector2.Zero, 
+                    0.5f, 
+                    SpriteEffects.FlipHorizontally, 
+                    0);
             }
         }
     }
