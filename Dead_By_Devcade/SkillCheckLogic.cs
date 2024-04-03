@@ -49,7 +49,7 @@ namespace Dead_By_Devcade
 
             } else
             {
-
+                curPostion = new Vector2()
             }
         }
 
