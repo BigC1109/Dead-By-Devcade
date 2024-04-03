@@ -2,12 +2,16 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Devcade;
+using System;
+using System.Diagnostics;
 
 // MAKE SURE YOU RENAME ALL PROJECT FILES FROM DevcadeGame TO YOUR YOUR GAME NAME
 namespace Dead_By_Devcade
 {
 	public class Game1 : Game
 	{
+		public SkillCheckLogic skillie = new SkillCheckLogic();
+
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
 		
@@ -65,6 +69,9 @@ namespace Dead_By_Devcade
 			// TODO: use this.Content to load your game content here
 			// ex:
 			// texture = Content.Load<Texture2D>("fileNameWithoutExtension");
+
+			skillie.LoadContent(Content);
+
 		}
 
 		/// <summary>
@@ -87,6 +94,11 @@ namespace Dead_By_Devcade
 
 			// TODO: Add your update logic here
 
+			if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+				skillie.SkillCheck();
+            }
+
 			base.Update(gameTime);
 		}
 
@@ -97,11 +109,14 @@ namespace Dead_By_Devcade
 		protected override void Draw(GameTime gameTime)
 		{
 			GraphicsDevice.Clear(Color.CornflowerBlue);
-			
+
 			// Batches all the draw calls for this frame, and then performs them all at once
+
 			_spriteBatch.Begin();
 			// TODO: Add your drawing code here
-			
+
+			skillie.Draw(_spriteBatch, windowSize);
+
 			_spriteBatch.End();
 
 			base.Draw(gameTime);
