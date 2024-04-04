@@ -26,6 +26,7 @@ namespace Dead_By_Devcade
         private Texture2D red;
         private Texture2D skill;
         private Texture2D objective;
+        private SpriteFont font;
 
 
         private bool active { get; set; }
@@ -55,6 +56,7 @@ namespace Dead_By_Devcade
             red = contentManager.Load<Texture2D>("Red");
             skill = contentManager.Load<Texture2D>("Skill");
             objective = contentManager.Load<Texture2D>("Objective");
+            font = contentManager.Load<SpriteFont>("mainFont");
         }
 
         public void Update(GameTime gameTime)
@@ -108,8 +110,8 @@ namespace Dead_By_Devcade
         {
             if (active == true)
             {
-                sb.Draw(ring, new Vector2(windowSize.Center.X / 2f, 
-                    windowSize.Center.Y / 2f), 
+                sb.Draw(ring, new Vector2((windowSize.Center.X / 2f)-12, 
+                    windowSize.Center.Y), 
                     null, 
                     Color.White, 
                     0, 
@@ -118,8 +120,8 @@ namespace Dead_By_Devcade
                     SpriteEffects.None, 
                     0);
                 sb.Draw(skill, new Vector2(
-                    (float)(((windowSize.Center.X / 2f) + (ring.Height / 4f)) + ((ring.Height / 4f) - 10)* (Math.Cos(SkillLocation))),
-                    (float)(((windowSize.Center.Y / 2f) + (ring.Width / 4f)) + ((ring.Width / 4f) - 10)* (Math.Sin(SkillLocation)))),
+                    (float)(((windowSize.Center.X / 2f) - 12 + (ring.Height / 4f)) + ((ring.Height / 4f) - 10)* (Math.Cos(SkillLocation))),
+                    (float)(((windowSize.Center.Y) + (ring.Width / 4f)) + ((ring.Width / 4f) - 10)* (Math.Sin(SkillLocation)))),
                     null, 
                     Color.White, 
                     SkillLocation + 119.97f, 
@@ -128,8 +130,8 @@ namespace Dead_By_Devcade
                     SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically, 
                     0);
                 sb.Draw(red, new Vector2(
-                    (float)(((windowSize.Center.X / 2f) + (ring.Height / 4f)) + ((ring.Height / 4f) + 55) * (Math.Cos(RedLocation))),
-                    (float)(((windowSize.Center.Y / 2f) + (ring.Width / 4f)) + ((ring.Width / 4f) + 55) * (Math.Sin(RedLocation)))),
+                    (float)(((windowSize.Center.X / 2f) - 12 + (ring.Height / 4f)) + ((ring.Height / 4f) + 55) * (Math.Cos(RedLocation))),
+                    (float)(((windowSize.Center.Y) + (ring.Width / 4f)) + ((ring.Width / 4f) + 55) * (Math.Sin(RedLocation)))),
                     null,
                     Color.White,
                     RedLocation + 1.65f,
@@ -142,23 +144,25 @@ namespace Dead_By_Devcade
             if (this.state == Result.GREAT)
             {
                 sb.Draw(objective, new Vector2(
-                windowSize.Center.X,
+                windowSize.Center.X - objective.Width / 2f,
                 windowSize.Top),
                 Color.White);
+                sb.DrawString(font, "GREAT SKILL CHECK", new Vector2(windowSize.Center.X / 4f, windowSize.Top + objective.Height), Color.White);
             } else if (this.state == Result.GOOD)
             {
                 sb.Draw(objective, new Vector2(
-                windowSize.Center.X,
+                windowSize.Center.X - objective.Width / 2f,
                 windowSize.Top),
                 Color.White);
+                sb.DrawString(font, "GOOD SKILL CHECK", new Vector2(windowSize.Center.X / 4f, windowSize.Top + objective.Height), Color.White);
             } else if (this.state == Result.FAIL)
             {
                 sb.Draw(objective, new Vector2(
-                windowSize.Center.X,
+                windowSize.Center.X - objective.Width/2f,
                 windowSize.Top),
                 Color.White);
+                sb.DrawString(font, "FAILED SKILL CHECK", new Vector2(windowSize.Center.X/4f, windowSize.Top + objective.Height), Color.White);
             }
-            Debug.Write(this.state);
         }
     }
 }
