@@ -94,7 +94,7 @@ namespace Dead_By_Devcade
 
 			// TODO: Add your update logic here
 
-			if (Keyboard.GetState().IsKeyDown(Keys.Space))
+			if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
 				skillie.SkillCheck();
             }
@@ -109,7 +109,7 @@ namespace Dead_By_Devcade
 		/// <param name="gameTime">This is the gameTime object you can use to get the time since last frame.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			GraphicsDevice.Clear(Color.CornflowerBlue);
+			GraphicsDevice.Clear(Color.Black);
 
 			// Batches all the draw calls for this frame, and then performs them all at once
 
