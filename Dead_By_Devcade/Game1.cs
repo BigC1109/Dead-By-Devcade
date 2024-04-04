@@ -99,6 +99,7 @@ namespace Dead_By_Devcade
 				skillie.SkillCheck();
             }
 
+			skillie.Update(gameTime);
 			base.Update(gameTime);
 		}
 

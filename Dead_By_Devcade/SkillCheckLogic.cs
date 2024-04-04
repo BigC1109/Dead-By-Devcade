@@ -23,7 +23,8 @@ namespace Dead_By_Devcade
 
 
         private bool active { get; set; }
-        private Vector2 curPostion;
+        private float SkillLocation;
+        private float RedLocation;
         private Random RNG = new Random();
 
         public SkillCheckLogic()
@@ -47,11 +48,14 @@ namespace Dead_By_Devcade
         {
             if (active == true)
             {
-
+                if (RedLocation < SkillLocation + 0.945f)
+                {
+                    RedLocation += 0.08f;
+                }
             } else
             {
-                int val = RNG.Next(0, 360);
-                curPostion = new Vector2();
+                SkillLocation = RNG.Next(-500, 3000) * 0.001f; // Lowest Possible Value: -0.5, Max Value: 3.00
+                RedLocation = -1.7f;
             }
         }
 
@@ -59,17 +63,34 @@ namespace Dead_By_Devcade
         {
             if (active == true)
             {
-                sb.Draw(ring, new Vector2(windowSize.Center.X / 2f, windowSize.Center.Y / 2f), null, Color.White, 0, Vector2.Zero, 0.5f, SpriteEffects.None, 0);
-                int val = RNG.Next(0, 360);
-                sb.Draw(skill, new Vector2(
-                    (float)(((windowSize.Center.X / 2f) + (ring.Height / 4f)) + ((ring.Height / 4f) - 10)* (Math.Cos(val))),
-                    (float)(((windowSize.Center.Y / 2f) + (ring.Width / 4f)) + ((ring.Width / 4f) - 10)* (Math.Sin(val)))),
+                sb.Draw(ring, new Vector2(windowSize.Center.X / 2f, 
+                    windowSize.Center.Y / 2f), 
                     null, 
                     Color.White, 
-                    val + 119.9f, 
+                    0, 
                     Vector2.Zero, 
                     0.5f, 
-                    SpriteEffects.FlipHorizontally, 
+                    SpriteEffects.None, 
+                    0);
+                sb.Draw(skill, new Vector2(
+                    (float)(((windowSize.Center.X / 2f) + (ring.Height / 4f)) + ((ring.Height / 4f) - 10)* (Math.Cos(SkillLocation))),
+                    (float)(((windowSize.Center.Y / 2f) + (ring.Width / 4f)) + ((ring.Width / 4f) - 10)* (Math.Sin(SkillLocation)))),
+                    null, 
+                    Color.White, 
+                    SkillLocation + 119.97f, 
+                    Vector2.Zero, 
+                    0.5f, 
+                    SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically, 
+                    0);
+                sb.Draw(red, new Vector2(
+                    (float)(((windowSize.Center.X / 2f) + (ring.Height / 4f)) + ((ring.Height / 4f) + 55) * (Math.Cos(RedLocation))),
+                    (float)(((windowSize.Center.Y / 2f) + (ring.Width / 4f)) + ((ring.Width / 4f) + 55) * (Math.Sin(RedLocation)))),
+                    null,
+                    Color.White,
+                    RedLocation + 1.65f,
+                    Vector2.Zero,
+                    0.45f,
+                    SpriteEffects.None,
                     0);
             }
         }
