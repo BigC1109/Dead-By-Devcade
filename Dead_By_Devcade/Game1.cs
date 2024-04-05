@@ -71,9 +71,8 @@ namespace Dead_By_Devcade
 			// ex:
 			// texture = Content.Load<Texture2D>("fileNameWithoutExtension");
 
-			skillie.LoadContent(Content);
+			SkillCheckLogic.LoadContent(Content);
 			generator.LoadContent(Content);
-
 
         }
 

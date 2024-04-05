@@ -26,19 +26,20 @@ namespace Dead_By_Devcade
         private Texture2D underBar;
         private Texture2D loading;
 
+        private Random RNG = new Random();
         private int totalTime;
         private float progress;
         private int progressTime;
         private Rectangle progressImage;
-        private SkillCheckLogic skillie;
+        private SkillCheckLogic skillie = new SkillCheckLogic();
 
 
         public GeneratorLogic()
         {
             this.state = State.INCOMPLETE;
-            this.skillie = new SkillCheckLogic();
             this.totalTime = 60; // Total amount of time to complete the gen.
             this.progress = 0;
+            this.progressTime = 0;
         }
 
         public void LoadContent(ContentManager contentManager)
@@ -50,11 +51,20 @@ namespace Dead_By_Devcade
 
         public void Update(GameTime gametime)
         {
+            skillie.Update(gametime);
             if (progress <= totalTime && gametime.TotalGameTime.Seconds > progressTime)
             {
                 progressImage.Width = (int)(progress / totalTime * loading.Width);
                 progress++;
                 progressTime = gametime.TotalGameTime.Seconds + 1;
+
+                //Debug.Write(RNG.Next(0, 7));
+
+                if (2 == 2)
+                {
+                    skillie.SkillCheck();
+                }
+
             } else if (progress >= totalTime) 
             {
                 progressImage.Width = loading.Width;
@@ -74,16 +84,20 @@ namespace Dead_By_Devcade
                 0.207f,
                 SpriteEffects.None,
                 0);
-            sb.Draw(loading, new Vector2(
-                windowSize.Left + 10,
-                windowSize.Bottom - underBar.Height),
-                progressImage,
-                Color.White,
-                0,
-                Vector2.Zero,
-                0.207f,
-                SpriteEffects.None,
-                0);
+            if (progress != 0)
+            {
+                sb.Draw(loading, new Vector2(
+                    windowSize.Left + 10,
+                    windowSize.Bottom - underBar.Height),
+                    progressImage,
+                    Color.White,
+                    0,
+                    Vector2.Zero,
+                    0.207f,
+                    SpriteEffects.None,
+                    0);
+            }
+            skillie.Draw(sb, windowSize);
         }
 
 

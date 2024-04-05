@@ -22,11 +22,11 @@ namespace Dead_By_Devcade
         }
         public Result state { get; set; }
 
-        private Texture2D ring;
-        private Texture2D red;
-        private Texture2D skill;
-        private Texture2D objective;
-        private SpriteFont font;
+        private static Texture2D ring;
+        private static Texture2D red;
+        private static Texture2D skill;
+        private static Texture2D objective;
+        private static SpriteFont font;
 
 
         private bool active { get; set; }
@@ -50,7 +50,7 @@ namespace Dead_By_Devcade
             this.resultTime = 0;
         }
 
-        public void LoadContent(ContentManager contentManager)
+        public static void LoadContent(ContentManager contentManager)
         {
             ring = contentManager.Load<Texture2D>("Ring");
             red = contentManager.Load<Texture2D>("Red");
