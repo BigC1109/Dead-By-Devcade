@@ -15,7 +15,7 @@ namespace Dead_By_Devcade
 
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
-		
+
 		/// <summary>
 		/// Stores the window dimensions in a rectangle object for easy use
 		/// </summary>
@@ -74,7 +74,8 @@ namespace Dead_By_Devcade
 			skillie.LoadContent(Content);
 			generator.LoadContent(Content);
 
-		}
+
+        }
 
 		/// <summary>
 		/// Your main update loop. This runs once every frame, over and over.
@@ -102,6 +103,7 @@ namespace Dead_By_Devcade
             }
 
 			skillie.Update(gameTime);
+			generator.Update(gameTime);
 			base.Update(gameTime);
 		}
 
