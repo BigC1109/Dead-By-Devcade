@@ -25,21 +25,23 @@ namespace Dead_By_Devcade
 
         private Texture2D underBar;
         private Texture2D loading;
+        private Rectangle progressImage;
 
         private Random RNG = new Random();
         private int genCompleteTime;
-        private float progress;
-        private float testProgress; // Rename this to replace progress (if it works)
+        private float genProgress; // This value is in milliseconds, divide by 1000 to get total amount
         private int progressTime;
-        private Rectangle progressImage;
         private SkillCheckLogic skillie = new SkillCheckLogic();
+
+        private double elapsedSkillieTime;
+        private bool allowSkillie;
 
 
         public GeneratorLogic()
         {
             this.state = State.INCOMPLETE;
             this.genCompleteTime = 60; // Total amount of time to complete the gen.
-            this.progress = 0;
+            this.genProgress = 0;
             this.progressTime = 0;
         }
 
@@ -52,32 +54,39 @@ namespace Dead_By_Devcade
 
         public void Update(GameTime gametime)
         {
-            skillie.Update(gametime);
-
             if (this.state == State.INCOMPLETE)
             {
+                genProgress += gametime.ElapsedGameTime.Milliseconds;
+                elapsedSkillieTime += gametime.ElapsedGameTime.TotalSeconds;
+                progressImage.Width = (int)((genProgress / 1000) / genCompleteTime * loading.Width);
 
-            }
+                Debug.Write(elapsedSkillieTime);
 
-            progressImage.Width = (int)(progress / genCompleteTime * loading.Width);
-            if (progress <= genCompleteTime && gametime.TotalGameTime.Seconds > progressTime)
-            {
-                progressImage.Width = (int)(progress / genCompleteTime * loading.Width);
-                progress++;
-                progressTime = gametime.TotalGameTime.Seconds + 1;
-
-                //Debug.Write(RNG.Next(0, 7));
-
-                if (2 == 2)
+                if (elapsedSkillieTime > 1 && allowSkillie == false) // Checks each second if a skillie can happen
                 {
-                    skillie.SkillCheck();
+                    if (RNG.Next(1, 5) == 1)
+                    {
+                        allowSkillie = true;
+                    }
+                    elapsedSkillieTime = 0;
                 }
 
-            } else if (progress >= genCompleteTime) 
-            {
-                progressImage.Width = loading.Width;
-                this.state = State.COMPLETE;
+                if (elapsedSkillieTime > 1 && skillie.active == false && allowSkillie == true) // Requirements for skillcheck: no current skillcheck, 3 seconds after previous, RNG of 1/5 chance each second
+                {
+                    elapsedSkillieTime = 0;
+                    allowSkillie = false;
+                    skillie.SkillCheck();
+                }
             }
+
+            if (genProgress/1000 >= genCompleteTime)
+            {
+                this.state = State.COMPLETE;
+                progressImage.Width = loading.Width;
+            }
+
+            skillie.Update(gametime);
+
         }
 
         public void Draw(SpriteBatch sb, Rectangle windowSize)
@@ -92,7 +101,7 @@ namespace Dead_By_Devcade
                 0.207f,
                 SpriteEffects.None,
                 0);
-            if (progress != 0)
+            if (genProgress != 0)
             {
                 sb.Draw(loading, new Vector2(
                     windowSize.Left + 10,

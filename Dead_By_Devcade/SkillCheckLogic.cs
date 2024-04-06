@@ -29,7 +29,7 @@ namespace Dead_By_Devcade
         private static SpriteFont font;
 
 
-        private bool active { get; set; }
+        public bool active { get; set; }
         private float SkillLocation;
         private float RedLocation;
         private Random RNG = new Random();
