@@ -27,8 +27,9 @@ namespace Dead_By_Devcade
         private Texture2D loading;
 
         private Random RNG = new Random();
-        private int totalTime;
+        private int genCompleteTime;
         private float progress;
+        private float testProgress; // Rename this to replace progress (if it works)
         private int progressTime;
         private Rectangle progressImage;
         private SkillCheckLogic skillie = new SkillCheckLogic();
@@ -37,7 +38,7 @@ namespace Dead_By_Devcade
         public GeneratorLogic()
         {
             this.state = State.INCOMPLETE;
-            this.totalTime = 60; // Total amount of time to complete the gen.
+            this.genCompleteTime = 60; // Total amount of time to complete the gen.
             this.progress = 0;
             this.progressTime = 0;
         }
@@ -52,9 +53,16 @@ namespace Dead_By_Devcade
         public void Update(GameTime gametime)
         {
             skillie.Update(gametime);
-            if (progress <= totalTime && gametime.TotalGameTime.Seconds > progressTime)
+
+            if (this.state == State.INCOMPLETE)
             {
-                progressImage.Width = (int)(progress / totalTime * loading.Width);
+
+            }
+
+            progressImage.Width = (int)(progress / genCompleteTime * loading.Width);
+            if (progress <= genCompleteTime && gametime.TotalGameTime.Seconds > progressTime)
+            {
+                progressImage.Width = (int)(progress / genCompleteTime * loading.Width);
                 progress++;
                 progressTime = gametime.TotalGameTime.Seconds + 1;
 
@@ -65,7 +73,7 @@ namespace Dead_By_Devcade
                     skillie.SkillCheck();
                 }
 
-            } else if (progress >= totalTime) 
+            } else if (progress >= genCompleteTime) 
             {
                 progressImage.Width = loading.Width;
                 this.state = State.COMPLETE;
