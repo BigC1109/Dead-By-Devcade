@@ -22,6 +22,7 @@ namespace Dead_By_Devcade
         }
 
         public State state { get; set; }
+        public SkillCheckLogic skillie = new SkillCheckLogic();
 
         private static Texture2D underBar;
         private static Texture2D loading;
@@ -35,7 +36,6 @@ namespace Dead_By_Devcade
         private float genProgress; // This value is in milliseconds, divide by 1000 to get total amount
         private bool skillieFailed;
         private float explosionOpacity;
-        private SkillCheckLogic skillie = new SkillCheckLogic();
 
         private double elapsedSkillieTime;
         private bool allowSkillie;

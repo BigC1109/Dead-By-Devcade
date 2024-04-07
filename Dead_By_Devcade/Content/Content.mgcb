@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:Devcade.png
 
+#begin Escaped.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Escaped.png
+
 #begin Explosion.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -61,6 +73,13 @@
 /processorParam:TextureFormat=Color
 /build:Generator.png
 
+#begin genLeft.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:genLeft.spritefont
+
 #begin interactionFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -79,6 +98,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Loading.png
+
+#begin menuFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:menuFont.spritefont
 
 #begin Objective.png
 /importer:TextureImporter
@@ -104,6 +130,13 @@
 /processorParam:TextureFormat=Color
 /build:Red.png
 
+#begin resultText.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:resultText.spritefont
+
 #begin Ring.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -115,6 +148,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Ring.png
+
+#begin Sacrificed.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sacrificed.png
 
 #begin scoreFont.spritefont
 /importer:FontDescriptionImporter
@@ -134,6 +179,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Skill.png
+
+#begin totalGens.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:totalGens.spritefont
 
 #begin UnderBar.png
 /importer:TextureImporter

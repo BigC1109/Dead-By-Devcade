@@ -11,7 +11,9 @@ namespace Dead_By_Devcade
 	public class Game1 : Game
 	{
 		public SkillCheckLogic skillie = new SkillCheckLogic();
-		public GeneratorLogic generator = new GeneratorLogic();
+		//public GeneratorLogic generator = new GeneratorLogic();
+		//public TrialLogic trial = new TrialLogic(TrialLogic.gamemode.TEST);
+		public MainMenu menu = new MainMenu();
 
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
@@ -72,7 +74,9 @@ namespace Dead_By_Devcade
 			// texture = Content.Load<Texture2D>("fileNameWithoutExtension");
 
 			SkillCheckLogic.LoadContent(Content);
-			generator.LoadContent(Content);
+			//generator.LoadContent(Content);
+			//trial.LoadContent(Content);
+			menu.LoadContent(Content);
 
         }
 
@@ -102,7 +106,9 @@ namespace Dead_By_Devcade
             }
 
 			skillie.Update(gameTime);
-			generator.Update(gameTime);
+			//generator.Update(gameTime);
+			//trial.Update(gameTime);
+			menu.Update(gameTime);
 			base.Update(gameTime);
 		}
 
@@ -120,7 +126,9 @@ namespace Dead_By_Devcade
 			// TODO: Add your drawing code here
 
 			skillie.Draw(_spriteBatch, windowSize);
-			generator.Draw(_spriteBatch, windowSize);
+			//generator.Draw(_spriteBatch, windowSize);
+			//trial.Draw(_spriteBatch, windowSize);
+			menu.Draw(_spriteBatch, windowSize);
 
 			_spriteBatch.End();
 
