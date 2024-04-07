@@ -27,28 +27,28 @@ namespace Dead_By_Devcade
         }
 
         public gamemode gamemodeSelected {  get; set; }
+        public statusTypes status { get; set; }
 
-        private Texture2D generator;
-        private Texture2D escaped;
-        private Texture2D sacrificed;
-        private SpriteFont genLeft;
-        private SpriteFont totalGens;
-        private SpriteFont resultText;
+        private static Texture2D generator;
+        private static Texture2D escaped;
+        private static Texture2D sacrificed;
+        private static SpriteFont genLeft;
+        private static SpriteFont totalGens;
+        private static SpriteFont resultText;
 
         private int genRemaining;
         private GeneratorLogic currentGenerator;
-        private statusTypes status;
 
         private float resultReveal;
 
         public TrialLogic(gamemode type)
         {
             this.gamemodeSelected = type;
-            this.genRemaining = 5;
+            this.genRemaining = 3;
             this.status = statusTypes.INPROGRESS;
         }
 
-        public void LoadContent(ContentManager contentManager)
+        public static void LoadContent(ContentManager contentManager)
         {
             generator = contentManager.Load<Texture2D>("Generator");
             escaped = contentManager.Load<Texture2D>("Escaped");
@@ -60,43 +60,49 @@ namespace Dead_By_Devcade
 
         public void Update(GameTime gameTime)
         {
-            if (currentGenerator == null || currentGenerator.state == GeneratorLogic.State.COMPLETE && genRemaining > 0)
+            if (status == statusTypes.INPROGRESS)
             {
-                currentGenerator = new GeneratorLogic();
-
-                if (currentGenerator.state == GeneratorLogic.State.COMPLETE)
+                if (currentGenerator != null && currentGenerator.state == GeneratorLogic.State.COMPLETE)
                 {
                     genRemaining--;
                 }
-            }
 
-            if (this.gamemodeSelected == gamemode.NORMAL)
-            {
-                // Doesnt fail, only shows win screen when all gens 
-            } else if (this.gamemodeSelected == gamemode.NOFAIL)
-            {
-                // Can fail, shows lose screen if a failed skill check occurs
-                if (currentGenerator.skillie.state == SkillCheckLogic.Result.FAIL)
+                if (currentGenerator == null || currentGenerator.state == GeneratorLogic.State.COMPLETE && genRemaining > 0)
                 {
-                    //END SCREEN
-                    this.status = statusTypes.LOSS;
+                    currentGenerator = new GeneratorLogic();
                 }
-            } else if (this.gamemodeSelected == gamemode.ONLYGREAT)
-            {
-                // Can fail, shows a lose screen if a good or failed skill check occurs
-                if (currentGenerator.skillie.state == SkillCheckLogic.Result.FAIL || currentGenerator.skillie.state == SkillCheckLogic.Result.GOOD)
+
+                if (this.gamemodeSelected == gamemode.NORMAL)
                 {
-                    //END SCREEN
-                    this.status = statusTypes.LOSS;
+                    // Doesnt fail, only shows win screen when all gens 
                 }
-            }
+                else if (this.gamemodeSelected == gamemode.NOFAIL)
+                {
+                    // Can fail, shows lose screen if a failed skill check occurs
+                    if (currentGenerator.skillie.state == SkillCheckLogic.Result.FAIL)
+                    {
+                        //END SCREEN
+                        this.status = statusTypes.LOSS;
+                        currentGenerator = null;
+                    }
+                }
+                else if (this.gamemodeSelected == gamemode.ONLYGREAT)
+                {
+                    // Can fail, shows a lose screen if a good or failed skill check occurs
+                    if (currentGenerator.skillie.state == SkillCheckLogic.Result.FAIL || currentGenerator.skillie.state == SkillCheckLogic.Result.GOOD)
+                    {
+                        //END SCREEN
+                        this.status = statusTypes.LOSS;
+                        currentGenerator = null;
+                    }
+                }
 
-            if (currentGenerator.state == GeneratorLogic.State.COMPLETE)
-            {
-                this.status = statusTypes.WIN;
-            }
-
-            if (this.status != statusTypes.INPROGRESS)
+                if (currentGenerator != null && currentGenerator.state == GeneratorLogic.State.COMPLETE)
+                {
+                    this.status = statusTypes.WIN;
+                    currentGenerator = null;
+                }
+            } else
             {
                 if (resultReveal < 1)
                 {
@@ -104,6 +110,10 @@ namespace Dead_By_Devcade
                 }
             }
 
+            if (currentGenerator != null)
+            {
+                currentGenerator.Update(gameTime);
+            }
         }
 
         public void Draw(SpriteBatch sb, Rectangle windowSize)
@@ -140,10 +150,8 @@ namespace Dead_By_Devcade
                     3f,
                     SpriteEffects.None,
                     0);
-                sb.DrawString(resultText, "ESCAPED", new Vector2(
-                    windowSize.Left + 80f,
-                    windowSize.Center.Y - 100f),
-                    Color.White * resultReveal);
+                sb.DrawString(resultText, "ESCAPED",
+                    new Vector2(windowSize.Center.X - resultText.MeasureString("ESCAPED").X / 2f, windowSize.Center.Y - 100f), Color.White * resultReveal);
             } else if (this.status == statusTypes.LOSS)
             {
                 sb.Draw(sacrificed, new Vector2(
@@ -156,10 +164,13 @@ namespace Dead_By_Devcade
                     1f,
                     SpriteEffects.None,
                     0);
-                sb.DrawString(resultText, "SACRIFICED", new Vector2(
-                    windowSize.Left + 40f,
-                    windowSize.Center.Y - 100f),
-                    Color.White * resultReveal);
+                sb.DrawString(resultText, "SACRIFICED",
+                    new Vector2(windowSize.Center.X - resultText.MeasureString("SACRIFICED").X / 2f, windowSize.Center.Y - 100f), Color.White * resultReveal);
+            }
+
+            if (currentGenerator != null)
+            {
+                currentGenerator.Draw(sb, windowSize);
             }
         }
     }

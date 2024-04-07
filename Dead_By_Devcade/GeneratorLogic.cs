@@ -29,7 +29,7 @@ namespace Dead_By_Devcade
         private static Texture2D generator;
         private static Texture2D explosion;
         private static SpriteFont font;
-        private Rectangle progressImage;
+        private static Rectangle progressImage;
 
         private Random RNG = new Random();
         private int genCompleteTime;
@@ -49,7 +49,7 @@ namespace Dead_By_Devcade
             this.skillieFailed = false;
         }
 
-        public void LoadContent(ContentManager contentManager)
+        public static void LoadContent(ContentManager contentManager)
         {
             // If found, look for hand icon for repairing. Couldn't find it so it's not there right now.
             underBar = contentManager.Load<Texture2D>("UnderBar");
@@ -58,7 +58,7 @@ namespace Dead_By_Devcade
             explosion = contentManager.Load<Texture2D>("Explosion");
             font = contentManager.Load<SpriteFont>("interactionFont");
 
-            this.progressImage = new Rectangle(0, 0, loading.Width, loading.Height);
+            progressImage = new Rectangle(0, 0, loading.Width, loading.Height);
         }
 
         public void Update(GameTime gametime)
@@ -129,25 +129,25 @@ namespace Dead_By_Devcade
         public void Draw(SpriteBatch sb, Rectangle windowSize)
         {
             sb.Draw(underBar, new Vector2(
-                windowSize.Left + 10,
+                windowSize.Center.X - (underBar.Width / 10f),
                 windowSize.Bottom - underBar.Height),
                 null,
                 Color.White,
                 0,
                 Vector2.Zero,
-                0.207f,
+                0.2f,
                 SpriteEffects.None,
                 0);
             if (genProgress != 0)
             {
                 sb.Draw(loading, new Vector2(
-                    windowSize.Left + 10,
+                    windowSize.Center.X - (loading.Width / 10f),
                     windowSize.Bottom - underBar.Height),
                     progressImage,
                     Color.White,
                     0,
                     Vector2.Zero,
-                    0.207f,
+                    0.2f,
                     SpriteEffects.None,
                     0);
             }
@@ -155,7 +155,7 @@ namespace Dead_By_Devcade
             if (skillieFailed) //skillie.state == SkillCheckLogic.Result.FAIL
             {
                 sb.Draw(explosion, new Vector2(
-                    windowSize.Center.X - explosion.Width/10f,
+                    windowSize.Center.X - explosion.Width / 10f,
                     (windowSize.Bottom / 2f) + 30f),
                     null,
                     Color.White * explosionOpacity,
@@ -167,7 +167,7 @@ namespace Dead_By_Devcade
             }
             sb.Draw(generator, new Vector2(
                 windowSize.Center.X - generator.Width,
-                (windowSize.Bottom/2f) + 50f),
+                (windowSize.Bottom / 2f) + 50f),
                 null,
                 Color.White,
                 0,
@@ -177,8 +177,8 @@ namespace Dead_By_Devcade
                 0);
 
             sb.DrawString(font, "REPAIR", new Vector2(
-                windowSize.Left + 10f, 
-                windowSize.Bottom - underBar.Height - 30f), 
+                windowSize.Center.X - (underBar.Width / 10f),
+                windowSize.Bottom - underBar.Height - 30f),
                 Color.White * 0.50f);
 
             skillie.Draw(sb, windowSize);

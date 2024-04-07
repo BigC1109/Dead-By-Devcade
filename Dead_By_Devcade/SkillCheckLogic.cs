@@ -150,21 +150,24 @@ namespace Dead_By_Devcade
                 windowSize.Center.X - objective.Width / 2f,
                 windowSize.Top),
                 Color.White);
-                sb.DrawString(font, "GREAT SKILL CHECK", new Vector2(windowSize.Center.X / 4f, windowSize.Top + objective.Height), Color.White);
+                sb.DrawString(font, "GREAT SKILL CHECK",
+                    new Vector2(windowSize.Center.X - font.MeasureString("GREAT SKILL CHECK").X / 2f, windowSize.Top + objective.Height), Color.White);
             } else if (this.state == Result.GOOD)
             {
                 sb.Draw(objective, new Vector2(
                 windowSize.Center.X - objective.Width / 2f,
                 windowSize.Top),
                 Color.White);
-                sb.DrawString(font, "GOOD SKILL CHECK", new Vector2(windowSize.Center.X / 4f, windowSize.Top + objective.Height), Color.White);
+                sb.DrawString(font, "GOOD SKILL CHECK",
+                    new Vector2(windowSize.Center.X - font.MeasureString("GOOD SKILL CHECK").X / 2f, windowSize.Top + objective.Height), Color.White);
             } else if (this.state == Result.FAIL)
             {
                 sb.Draw(objective, new Vector2(
                 windowSize.Center.X - objective.Width/2f,
                 windowSize.Top),
                 Color.White);
-                sb.DrawString(font, "FAILED SKILL CHECK", new Vector2(windowSize.Center.X/4f, windowSize.Top + objective.Height), Color.White);
+                sb.DrawString(font, "FAILED SKILL CHECK",
+                    new Vector2(windowSize.Center.X - font.MeasureString("FAILED SKILL CHECK").X / 2f, windowSize.Top + objective.Height), Color.White);
             }
         }
     }

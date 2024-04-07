@@ -28,8 +28,6 @@ namespace Dead_By_Devcade
 
         private TrialLogic trial;
 
-        private int counter;
-
         public MainMenu()
         {
             this.mainMenu = 1;
@@ -43,112 +41,136 @@ namespace Dead_By_Devcade
             menuFont = contentManager.Load<SpriteFont>("menuFont");
             justX = contentManager.Load<SpriteFont>("X");
             wipFont = contentManager.Load<SpriteFont>("wipFont");
+
+            TrialLogic.LoadContent(contentManager);
+            GeneratorLogic.LoadContent(contentManager);
+            SkillCheckLogic.LoadContent(contentManager);
         }
 
         public void Update(GameTime gameTime)
         {
-            counter++;
-            if (menuMove)
+            if (trial == null || trial.status != TrialLogic.statusTypes.INPROGRESS)
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                if (menuMove)
                 {
-                    if (mainMenu == 1)
+                    if (Keyboard.GetState().IsKeyDown(Keys.Right))
                     {
-                        // This will run the main game
-                        this.mainMenu = 0;
-                    }
-                    else if (mainMenu == 2)
-                    {
-                        this.mainMenu = 0;
-                        this.genMenu = 1;
-                    } else if (genMenu == 1)
-                    {
-                        // This runs Normal
-                        this.genMenu = 0;
-                        trial = new TrialLogic(TrialLogic.gamemode.NORMAL);
-                    }
-                    else if (genMenu == 2)
-                    {
-                        // This runs No Fail
-                        this.genMenu = 0;
-                        trial = new TrialLogic(TrialLogic.gamemode.NOFAIL);
-                    }
-                    else if (genMenu == 3)
-                    {
-                        // This runs Only Great
-                        this.genMenu = 0;
-                        trial = new TrialLogic(TrialLogic.gamemode.ONLYGREAT);
-                    }
-                    menuMove = false;
-                } else if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                {
-                    if (genMenu != 0)
-                    {
-                        this.mainMenu = 1;
-                        this.genMenu = 0;
-                    } else if (genMenu == 0 && mainMenu == 0)
-                    {
-                        this.mainMenu = 1;
-                    }
-                    menuMove = false;
-                } else if (Keyboard.GetState().IsKeyDown(Keys.Up))
-                {
-                    if (mainMenu != 0)
-                    {
-                        if (this.mainMenu - 1 != 0)
+                        if (mainMenu == 1)
                         {
-                            this.mainMenu--;
+                            // This will run the main game
+                            this.mainMenu = 10;
+                            this.genMenu = 10;
                         }
-                    } else if (genMenu != 0)
-                    {
-                        if (this.genMenu - 1 != 0)
+                        else if (mainMenu == 2)
                         {
-                            this.genMenu--;
+                            this.mainMenu = 0;
+                            this.genMenu = 1;
                         }
+                        else if (genMenu == 1)
+                        {
+                            // This runs Normal
+                            this.genMenu = 0;
+                            trial = new TrialLogic(TrialLogic.gamemode.NORMAL);
+                        }
+                        else if (genMenu == 2)
+                        {
+                            // This runs No Fail
+                            this.genMenu = 0;
+                            trial = new TrialLogic(TrialLogic.gamemode.NOFAIL);
+                        }
+                        else if (genMenu == 3)
+                        {
+                            // This runs Only Great
+                            this.genMenu = 0;
+                            trial = new TrialLogic(TrialLogic.gamemode.ONLYGREAT);
+                        }
+                        menuMove = false;
                     }
-                    menuMove = false;
-                } else if (Keyboard.GetState().IsKeyDown(Keys.Down))
-                {
-                    if (mainMenu != 0)
+                    else if (Keyboard.GetState().IsKeyDown(Keys.Left))
                     {
-                        if (this.mainMenu + 1 != 3)
+                        if (genMenu == 10 && mainMenu == 10)
                         {
-                            this.mainMenu++;
-                        }
-                    } else if (genMenu != 0)
-                    {
-                        if (this.genMenu + 1 != 4)
+                            this.mainMenu = 1;
+                            this.genMenu = 0;
+                        } else if (genMenu != 0)
                         {
-                            this.genMenu++;
+                            this.mainMenu = 1;
+                            this.genMenu = 0;
                         }
+                        else if (genMenu == 0 && mainMenu == 0)
+                        {
+                            this.mainMenu = 1;
+                        }
+                        menuMove = false;
                     }
-                    menuMove = false;
+                    else if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                    {
+                        if (mainMenu != 0)
+                        {
+                            if (this.mainMenu - 1 != 0)
+                            {
+                                this.mainMenu--;
+                            }
+                        }
+                        else if (genMenu != 0)
+                        {
+                            if (this.genMenu - 1 != 0)
+                            {
+                                this.genMenu--;
+                            }
+                        }
+                        menuMove = false;
+                    }
+                    else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                    {
+                        if (mainMenu != 0)
+                        {
+                            if (this.mainMenu + 1 != 3)
+                            {
+                                this.mainMenu++;
+                            }
+                        }
+                        else if (genMenu != 0)
+                        {
+                            if (this.genMenu + 1 != 4)
+                            {
+                                this.genMenu++;
+                            }
+                        }
+                        menuMove = false;
+                    }
                 }
-            } else
-            {
-                if (Keyboard.GetState().IsKeyUp(Keys.Up) && Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.Left))
+                else
                 {
-                    menuMove = true;
+                    if (Keyboard.GetState().IsKeyUp(Keys.Up) && Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.Left))
+                    {
+                        menuMove = true;
+                    }
                 }
             }
 
-            if (this.mainMenu != 0)
+            if (this.mainMenu != 0 && this.mainMenu != 10)
             {
                 Color[] tempColors = new Color[3] { Color.White, Color.White, Color.White };
                 tempColors[mainMenu - 1] = Color.Yellow;
                 this.iconColor = tempColors;
-            } else if (this.genMenu != 0)
+            } else if (this.genMenu != 0 && this.genMenu != 10)
             {
                 Color[] tempColors = new Color[3] { Color.White, Color.White, Color.White };
                 tempColors[genMenu - 1] = Color.Yellow;
                 this.iconColor = tempColors;
             }
 
+            if (trial != null && mainMenu == 0 && genMenu == 0)
+            {
+                trial.Update(gameTime);
+            }
+
         }
 
         public void Draw(SpriteBatch sb, Rectangle windowSize)
         {
-            if (mainMenu != 0)
+            if (mainMenu != 0 && this.mainMenu != 10)
             {
                 sb.DrawString(menuFont, "PLAY",
                     new Vector2(windowSize.Center.X - menuFont.MeasureString("PLAY").X / 2f, windowSize.Center.Y - 50f), iconColor[0]);
@@ -181,7 +203,7 @@ namespace Dead_By_Devcade
                     0);
             }
 
-            if (genMenu != 0)
+            if (genMenu != 0 && this.genMenu != 10)
             {
                 sb.DrawString(menuFont, "NORMAL",
                     new Vector2(windowSize.Center.X - menuFont.MeasureString("NORMAL").X / 2f, windowSize.Center.Y - 100f), iconColor[0]);
@@ -191,7 +213,7 @@ namespace Dead_By_Devcade
                     new Vector2(windowSize.Center.X - menuFont.MeasureString("ONLY GREAT").X / 2f, windowSize.Center.Y + 100f), iconColor[2]);
             }
 
-            if (mainMenu == 0 && genMenu == 0 && trial == null)
+            if (mainMenu == 10 && genMenu == 10)
             {
                 float sizeCorrection = windowSize.Top + 300f;
                 sb.DrawString(wipFont, "SORRY",
@@ -214,6 +236,11 @@ namespace Dead_By_Devcade
                 sizeCorrection += wipFont.MeasureString("PRACTICE, GOOD LUCK").Y + 20f;
                 sb.DrawString(wipFont, "-BIGC",
                     new Vector2((windowSize.Center.X - wipFont.MeasureString("-BIGC").X / 2f) + 100f, sizeCorrection), Color.White);
+            }
+
+            if (trial != null && mainMenu == 0 && genMenu == 0)
+            {
+                trial.Draw(sb, windowSize);
             }
 
         }
