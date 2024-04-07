@@ -21,7 +21,7 @@ namespace Dead_By_Devcade
             REGRESSING // Might not get to use this, but maybe in the future!
         }
 
-        public State state;
+        public State state { get; set; }
 
         private static Texture2D underBar;
         private static Texture2D loading;
