@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Devcade;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -68,7 +69,7 @@ namespace Dead_By_Devcade
             {
                 if (RedLocation < SkillLocation + 0.945f) // + 0.945f
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Space) || Input.GetButton(1, Input.ArcadeButtons.A1))
                     {
                         if (RedLocation < SkillLocation - 0.08f)
                         {

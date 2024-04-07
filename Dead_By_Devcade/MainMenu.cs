@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Devcade;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -53,7 +54,7 @@ namespace Dead_By_Devcade
             {
                 if (menuMove)
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Right) || Input.GetButtonDown(1, Input.ArcadeButtons.StickRight))
                     {
                         if (mainMenu == 1)
                         {
@@ -86,7 +87,7 @@ namespace Dead_By_Devcade
                         }
                         menuMove = false;
                     }
-                    else if (Keyboard.GetState().IsKeyDown(Keys.Left))
+                    else if (Keyboard.GetState().IsKeyDown(Keys.Left) || Input.GetButtonDown(1, Input.ArcadeButtons.StickLeft))
                     {
                         if (genMenu == 10 && mainMenu == 10)
                         {
@@ -103,7 +104,7 @@ namespace Dead_By_Devcade
                         }
                         menuMove = false;
                     }
-                    else if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                    else if (Keyboard.GetState().IsKeyDown(Keys.Up) || Input.GetButtonDown(1, Input.ArcadeButtons.StickUp))
                     {
                         if (mainMenu != 0)
                         {
@@ -121,7 +122,7 @@ namespace Dead_By_Devcade
                         }
                         menuMove = false;
                     }
-                    else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                    else if (Keyboard.GetState().IsKeyDown(Keys.Down) || Input.GetButtonDown(1, Input.ArcadeButtons.StickDown))
                     {
                         if (mainMenu != 0)
                         {
@@ -142,7 +143,8 @@ namespace Dead_By_Devcade
                 }
                 else
                 {
-                    if (Keyboard.GetState().IsKeyUp(Keys.Up) && Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.Left))
+                    if ((Keyboard.GetState().IsKeyUp(Keys.Up) && Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.Left)) ||
+                         Input.GetButtonUp(1, Input.ArcadeButtons.StickRight) || Input.GetButtonUp(1, Input.ArcadeButtons.StickLeft) || Input.GetButtonUp(1, Input.ArcadeButtons.StickUp) || Input.GetButtonUp(1, Input.ArcadeButtons.StickDown))
                     {
                         menuMove = true;
                     }
