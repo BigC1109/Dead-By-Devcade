@@ -25,12 +25,15 @@ namespace Dead_By_Devcade
 
         private Texture2D underBar;
         private Texture2D loading;
+        private Texture2D generator;
+        private Texture2D explosion;
         private Rectangle progressImage;
 
         private Random RNG = new Random();
         private int genCompleteTime;
         private float genProgress; // This value is in milliseconds, divide by 1000 to get total amount
-        private int progressTime;
+        private bool skillieFailed;
+        private float explosionOpacity;
         private SkillCheckLogic skillie = new SkillCheckLogic();
 
         private double elapsedSkillieTime;
@@ -42,13 +45,16 @@ namespace Dead_By_Devcade
             this.state = State.INCOMPLETE;
             this.genCompleteTime = 60; // Total amount of time to complete the gen.
             this.genProgress = 0;
-            this.progressTime = 0;
+            this.skillieFailed = false;
         }
 
         public void LoadContent(ContentManager contentManager)
         {
             underBar = contentManager.Load<Texture2D>("UnderBar");
             loading = contentManager.Load<Texture2D>("Loading");
+            generator = contentManager.Load<Texture2D>("Generator");
+            explosion = contentManager.Load<Texture2D>("Explosion");
+
             this.progressImage = new Rectangle(0, 0, loading.Width, loading.Height);
         }
 
@@ -56,13 +62,25 @@ namespace Dead_By_Devcade
         {
             if (this.state == State.INCOMPLETE)
             {
-                genProgress += gametime.ElapsedGameTime.Milliseconds;
                 elapsedSkillieTime += gametime.ElapsedGameTime.TotalSeconds;
                 progressImage.Width = (int)((genProgress / 1000) / genCompleteTime * loading.Width);
 
-                Debug.Write(elapsedSkillieTime);
+                if (this.skillieFailed)
+                {
+                    if (elapsedSkillieTime > 5)
+                    {
+                        this.skillieFailed = false;
+                        elapsedSkillieTime = 0;
+                    }
+                    explosionOpacity -= (float)elapsedSkillieTime / 50f;
+                }
+                
+                if (!this.skillieFailed)
+                {
+                    genProgress += gametime.ElapsedGameTime.Milliseconds;
+                }
 
-                if (elapsedSkillieTime > 1 && allowSkillie == false) // Checks each second if a skillie can happen
+                if (elapsedSkillieTime > 1 && allowSkillie == false && !skillieFailed) // Checks each second if a skillie can happen
                 {
                     if (RNG.Next(1, 5) == 1)
                     {
@@ -71,7 +89,7 @@ namespace Dead_By_Devcade
                     elapsedSkillieTime = 0;
                 }
 
-                if (elapsedSkillieTime > 1 && skillie.active == false && allowSkillie == true) // Requirements for skillcheck: no current skillcheck, 3 seconds after previous, RNG of 1/5 chance each second
+                if (elapsedSkillieTime > 1 && skillie.active == false && allowSkillie == true && !skillieFailed) // Requirements for skillcheck: no current skillcheck, 3 seconds after previous, RNG of 1/5 chance each second
                 {
                     elapsedSkillieTime = 0;
                     allowSkillie = false;
@@ -83,6 +101,22 @@ namespace Dead_By_Devcade
             {
                 this.state = State.COMPLETE;
                 progressImage.Width = loading.Width;
+            }
+
+            if (skillie.state != SkillCheckLogic.Result.NONE && !skillie.resultTaken)
+            {
+                if (skillie.state == SkillCheckLogic.Result.FAIL)
+                {
+                    genProgress -= (float)(genCompleteTime * 0.05) * 1000;
+                    if (genProgress < 0) { genProgress = 0; }
+                    skillieFailed = true;
+                    explosionOpacity = 1f;
+                } else if (skillie.state == SkillCheckLogic.Result.GREAT)
+                {
+                    genProgress += (float)(genCompleteTime * 0.03) * 1000;
+                    if (genProgress/1000 > genCompleteTime) { genProgress = genCompleteTime * 1000; }
+                }
+                skillie.resultTaken = true;
             }
 
             skillie.Update(gametime);
@@ -114,6 +148,31 @@ namespace Dead_By_Devcade
                     SpriteEffects.None,
                     0);
             }
+
+            if (skillieFailed) //skillie.state == SkillCheckLogic.Result.FAIL
+            {
+                sb.Draw(explosion, new Vector2(
+                    windowSize.Center.X - explosion.Width/10f,
+                    (windowSize.Bottom / 2f) + 30f),
+                    null,
+                    Color.White * explosionOpacity,
+                    0,
+                    Vector2.Zero,
+                    0.20f,
+                    SpriteEffects.None,
+                    0);
+            }
+            sb.Draw(generator, new Vector2(
+                windowSize.Center.X - generator.Width,
+                (windowSize.Bottom/2f) + 50f),
+                null,
+                Color.White,
+                0,
+                Vector2.Zero,
+                2f,
+                SpriteEffects.None,
+                0);
+
             skillie.Draw(sb, windowSize);
         }
 

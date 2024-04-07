@@ -21,6 +21,7 @@ namespace Dead_By_Devcade
             NONE
         }
         public Result state { get; set; }
+        public bool resultTaken { get; set; }
 
         private static Texture2D ring;
         private static Texture2D red;
@@ -41,6 +42,7 @@ namespace Dead_By_Devcade
             active = false;
             this.state = Result.NONE;
             this.resultTime = 0;
+            this.resultTaken = false;
         }
 
         public void SkillCheck()
@@ -48,6 +50,7 @@ namespace Dead_By_Devcade
             active = true;
             this.state = Result.NONE;
             this.resultTime = 0;
+            this.resultTaken = false;
         }
 
         public static void LoadContent(ContentManager contentManager)
@@ -56,7 +59,7 @@ namespace Dead_By_Devcade
             red = contentManager.Load<Texture2D>("Red");
             skill = contentManager.Load<Texture2D>("Skill");
             objective = contentManager.Load<Texture2D>("Objective");
-            font = contentManager.Load<SpriteFont>("mainFont");
+            font = contentManager.Load<SpriteFont>("scoreFont");
         }
 
         public void Update(GameTime gameTime)
@@ -81,7 +84,7 @@ namespace Dead_By_Devcade
                             active = false;
                         }
                     }
-                    RedLocation += 0.08f;
+                    RedLocation += 0.08f; // FIX THIS, it should work in the way that amount of gametime effects location, used ElapsedTime
                 } else
                 {
                     this.state = Result.FAIL;
@@ -111,7 +114,7 @@ namespace Dead_By_Devcade
             if (active == true)
             {
                 sb.Draw(ring, new Vector2((windowSize.Center.X / 2f)-12, 
-                    windowSize.Center.Y), 
+                    windowSize.Center.Y - 200f), 
                     null, 
                     Color.White, 
                     0, 
@@ -121,7 +124,7 @@ namespace Dead_By_Devcade
                     0);
                 sb.Draw(skill, new Vector2(
                     (float)(((windowSize.Center.X / 2f) - 12 + (ring.Height / 4f)) + ((ring.Height / 4f) - 10)* (Math.Cos(SkillLocation))),
-                    (float)(((windowSize.Center.Y) + (ring.Width / 4f)) + ((ring.Width / 4f) - 10)* (Math.Sin(SkillLocation)))),
+                    (float)(((windowSize.Center.Y - 200f) + (ring.Width / 4f)) + ((ring.Width / 4f) - 10)* (Math.Sin(SkillLocation)))),
                     null, 
                     Color.White, 
                     SkillLocation + 119.97f, 
@@ -131,7 +134,7 @@ namespace Dead_By_Devcade
                     0);
                 sb.Draw(red, new Vector2(
                     (float)(((windowSize.Center.X / 2f) - 12 + (ring.Height / 4f)) + ((ring.Height / 4f) + 55) * (Math.Cos(RedLocation))),
-                    (float)(((windowSize.Center.Y) + (ring.Width / 4f)) + ((ring.Width / 4f) + 55) * (Math.Sin(RedLocation)))),
+                    (float)(((windowSize.Center.Y - 200f) + (ring.Width / 4f)) + ((ring.Width / 4f) + 55) * (Math.Sin(RedLocation)))),
                     null,
                     Color.White,
                     RedLocation + 1.65f,
