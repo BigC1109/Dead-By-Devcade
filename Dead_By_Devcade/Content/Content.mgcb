@@ -37,6 +37,13 @@
 /processorParam:TextureFormat=Color
 /build:Generator.png
 
+#begin interactionFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:interactionFont.spritefont
+
 #begin Loading.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -48,13 +55,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Loading.png
-
-#begin mainFont.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:mainFont.spritefont;scoreFont.spritefont
 
 #begin Objective.png
 /importer:TextureImporter
@@ -91,6 +91,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Ring.png
+
+#begin scoreFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:scoreFont.spritefont
 
 #begin Skill.png
 /importer:TextureImporter

@@ -27,6 +27,7 @@ namespace Dead_By_Devcade
         private Texture2D loading;
         private Texture2D generator;
         private Texture2D explosion;
+        private SpriteFont font;
         private Rectangle progressImage;
 
         private Random RNG = new Random();
@@ -54,6 +55,7 @@ namespace Dead_By_Devcade
             loading = contentManager.Load<Texture2D>("Loading");
             generator = contentManager.Load<Texture2D>("Generator");
             explosion = contentManager.Load<Texture2D>("Explosion");
+            font = contentManager.Load<SpriteFont>("interactionFont");
 
             this.progressImage = new Rectangle(0, 0, loading.Width, loading.Height);
         }
@@ -173,9 +175,12 @@ namespace Dead_By_Devcade
                 SpriteEffects.None,
                 0);
 
+            sb.DrawString(font, "REPAIR", new Vector2(
+                windowSize.Left + 10f, 
+                windowSize.Bottom - underBar.Height - 30f), 
+                Color.White * 0.50f);
+
             skillie.Draw(sb, windowSize);
         }
-
-
     }
 }
