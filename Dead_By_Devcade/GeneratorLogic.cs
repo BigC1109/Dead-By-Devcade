@@ -23,11 +23,11 @@ namespace Dead_By_Devcade
 
         public State state;
 
-        private Texture2D underBar;
-        private Texture2D loading;
-        private Texture2D generator;
-        private Texture2D explosion;
-        private SpriteFont font;
+        private static Texture2D underBar;
+        private static Texture2D loading;
+        private static Texture2D generator;
+        private static Texture2D explosion;
+        private static SpriteFont font;
         private Rectangle progressImage;
 
         private Random RNG = new Random();
@@ -51,6 +51,7 @@ namespace Dead_By_Devcade
 
         public void LoadContent(ContentManager contentManager)
         {
+            // If found, look for hand icon for repairing. Couldn't find it so it's not there right now.
             underBar = contentManager.Load<Texture2D>("UnderBar");
             loading = contentManager.Load<Texture2D>("Loading");
             generator = contentManager.Load<Texture2D>("Generator");
