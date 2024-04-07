@@ -199,6 +199,13 @@
 /processorParam:TextureFormat=Color
 /build:UnderBar.png
 
+#begin wipFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:wipFont.spritefont
+
 #begin X.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

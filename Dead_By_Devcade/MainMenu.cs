@@ -19,12 +19,16 @@ namespace Dead_By_Devcade
         private static Texture2D deadByDaylight;
         private static SpriteFont menuFont;
         private static SpriteFont justX;
+        private static SpriteFont wipFont;
         
         private int mainMenu;
         private int genMenu;
         private Color[] iconColor = new Color[3] {Color.Yellow, Color.White, Color.White};
+        private bool menuMove;
 
         private TrialLogic trial;
+
+        private int counter;
 
         public MainMenu()
         {
@@ -38,87 +42,93 @@ namespace Dead_By_Devcade
             deadByDaylight = contentManager.Load<Texture2D>("DeadByDaylight");
             menuFont = contentManager.Load<SpriteFont>("menuFont");
             justX = contentManager.Load<SpriteFont>("X");
+            wipFont = contentManager.Load<SpriteFont>("wipFont");
         }
 
         public void Update(GameTime gameTime)
         {
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            counter++;
+            if (menuMove)
             {
-                if (mainMenu == 1)
+                if (Keyboard.GetState().IsKeyDown(Keys.Right))
                 {
-                    // This will run the main game
-                    this.mainMenu = 0;
-                } else if (mainMenu == 2)
+                    if (mainMenu == 1)
+                    {
+                        // This will run the main game
+                        this.mainMenu = 0;
+                    }
+                    else if (mainMenu == 2)
+                    {
+                        this.mainMenu = 0;
+                        this.genMenu = 1;
+                    } else if (genMenu == 1)
+                    {
+                        // This runs Normal
+                        this.genMenu = 0;
+                        trial = new TrialLogic(TrialLogic.gamemode.NORMAL);
+                    }
+                    else if (genMenu == 2)
+                    {
+                        // This runs No Fail
+                        this.genMenu = 0;
+                        trial = new TrialLogic(TrialLogic.gamemode.NOFAIL);
+                    }
+                    else if (genMenu == 3)
+                    {
+                        // This runs Only Great
+                        this.genMenu = 0;
+                        trial = new TrialLogic(TrialLogic.gamemode.ONLYGREAT);
+                    }
+                    menuMove = false;
+                } else if (Keyboard.GetState().IsKeyDown(Keys.Left))
                 {
-                    this.mainMenu = 0;
-                    this.genMenu = 1;
+                    if (genMenu != 0)
+                    {
+                        this.mainMenu = 1;
+                        this.genMenu = 0;
+                    } else if (genMenu == 0 && mainMenu == 0)
+                    {
+                        this.mainMenu = 1;
+                    }
+                    menuMove = false;
+                } else if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                {
+                    if (mainMenu != 0)
+                    {
+                        if (this.mainMenu - 1 != 0)
+                        {
+                            this.mainMenu--;
+                        }
+                    } else if (genMenu != 0)
+                    {
+                        if (this.genMenu - 1 != 0)
+                        {
+                            this.genMenu--;
+                        }
+                    }
+                    menuMove = false;
+                } else if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                {
+                    if (mainMenu != 0)
+                    {
+                        if (this.mainMenu + 1 != 3)
+                        {
+                            this.mainMenu++;
+                        }
+                    } else if (genMenu != 0)
+                    {
+                        if (this.genMenu + 1 != 4)
+                        {
+                            this.genMenu++;
+                        }
+                    }
+                    menuMove = false;
                 }
-
-                if (genMenu == 1)
-                {
-                    // This runs Normal
-                    this.genMenu = 0;
-                    trial = new TrialLogic(TrialLogic.gamemode.NORMAL);
-                } else if (genMenu == 2)
-                {
-                    // This runs No Fail
-                    this.genMenu = 0;
-                    trial = new TrialLogic(TrialLogic.gamemode.NOFAIL);
-                } else if (mainMenu == 3)
-                {
-                    // This runs Only Great
-                    this.genMenu = 0;
-                    trial = new TrialLogic(TrialLogic.gamemode.ONLYGREAT);
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            } else
             {
-                if (genMenu != 0)
+                if (Keyboard.GetState().IsKeyUp(Keys.Up) && Keyboard.GetState().IsKeyUp(Keys.Down) && Keyboard.GetState().IsKeyUp(Keys.Right) && Keyboard.GetState().IsKeyUp(Keys.Left))
                 {
-                    this.mainMenu = 1;
-                    this.genMenu = 0;
-                }
-                if (genMenu == 0 && mainMenu == 0)
-                {
-                    this.mainMenu = 1;
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                if (mainMenu != 0)
-                {
-                    if (this.mainMenu - 1 != 0)
-                    {
-                        this.mainMenu--;
-                    }
-                }
-                if (genMenu != 0)
-                {
-                    if (this.genMenu - 1 != 0)
-                    {
-                        this.genMenu--;
-                    }
-                }
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                if (mainMenu != 0)
-                {
-                    if (this.mainMenu + 1 != 3)
-                    {
-                        this.mainMenu++;
-                    }
-                }
-                if (genMenu != 0)
-                {
-                    if (this.genMenu + 1 != 4)
-                    {
-                        this.genMenu++;
-                    }
+                    menuMove = true;
                 }
             }
 
@@ -173,27 +183,37 @@ namespace Dead_By_Devcade
 
             if (genMenu != 0)
             {
-                sb.DrawString(menuFont, "NORMAL", new Vector2(windowSize.Center.X / 4f, windowSize.Bottom / 3f), iconColor[0]);
-                sb.DrawString(menuFont, "NO FAIL", new Vector2(windowSize.Center.X / 4f, windowSize.Bottom/2f), iconColor[1]);
-                sb.DrawString(menuFont, "ONLY GREAT", new Vector2(windowSize.Center.X / 4f, windowSize.Bottom / 1.5f), iconColor[2]);
+                sb.DrawString(menuFont, "NORMAL",
+                    new Vector2(windowSize.Center.X - menuFont.MeasureString("NORMAL").X / 2f, windowSize.Center.Y - 100f), iconColor[0]);
+                sb.DrawString(menuFont, "NO FAIL",
+                    new Vector2(windowSize.Center.X - menuFont.MeasureString("NO FAIL").X / 2f, windowSize.Center.Y), iconColor[1]);
+                sb.DrawString(menuFont, "ONLY GREAT",
+                    new Vector2(windowSize.Center.X - menuFont.MeasureString("ONLY GREAT").X / 2f, windowSize.Center.Y + 100f), iconColor[2]);
             }
 
-            if (mainMenu == 0 && genMenu == 0)
+            if (mainMenu == 0 && genMenu == 0 && trial == null)
             {
-                sb.DrawString(menuFont, "SORRY",
-                    new Vector2(windowSize.Center.X - menuFont.MeasureString("SORRY").X / 2f, windowSize.Top + 90f), Color.White);
-                sb.DrawString(menuFont, "THE ENTITY IS STILL",
-                    new Vector2(windowSize.Center.X - menuFont.MeasureString("THE ENTITY IS STILL").X / 2f, (windowSize.Top + 90f) + menuFont.MeasureString("SORRY").Y + 3f), Color.White);
-                sb.DrawString(menuFont, "CREATING ITS REALM",
-                    new Vector2(windowSize.Center.X - menuFont.MeasureString("CREATING ITS REALM").X / 2f, (windowSize.Top + 90f) + menuFont.MeasureString("THE ENTITY IS STILL").Y + 3f), Color.White);
-                sb.DrawString(menuFont, "THERE ARE GENERATORS",
-                    new Vector2(windowSize.Center.X - menuFont.MeasureString("THERE ARE GENERATORS").X / 2f, (windowSize.Top + 90f) + menuFont.MeasureString("CREATING ITS REALM").Y + 3f), Color.White);
-                sb.DrawString(menuFont, "TO BE FIXED IN GENERATOR",
-                    new Vector2(windowSize.Center.X - menuFont.MeasureString("TO BE FIXED IN GENERATOR").X / 2f, (windowSize.Top + 90f) + menuFont.MeasureString("THERE ARE GENERATORS").Y + 3f), Color.White);
-                sb.DrawString(menuFont, "PRACTICE, GOOD LUCK",
-                    new Vector2(windowSize.Center.X - menuFont.MeasureString("PRACTICE, GOOD LUCK").X / 2f, (windowSize.Top + 90f) + menuFont.MeasureString("PRACTICE, GOOD LUCK").Y + 3f), Color.White);
-                sb.DrawString(menuFont, "-BIGC",
-                    new Vector2((windowSize.Center.X - menuFont.MeasureString("-BIGC").X / 2f) + 80f, (windowSize.Top + 90f) + menuFont.MeasureString("-BIGC").Y + 3f), Color.White);
+                float sizeCorrection = windowSize.Top + 300f;
+                sb.DrawString(wipFont, "SORRY",
+                    new Vector2(windowSize.Center.X - wipFont.MeasureString("SORRY").X / 2f, sizeCorrection), Color.White);
+                sizeCorrection += wipFont.MeasureString("SORRY").Y + 3f;
+                sb.DrawString(wipFont, "THE ENTITY IS STILL",
+                    new Vector2(windowSize.Center.X - wipFont.MeasureString("THE ENTITY IS STILL").X / 2f, sizeCorrection), Color.White);
+                sizeCorrection += wipFont.MeasureString("THE ENTITY IS STILL").Y + 3f;
+                sb.DrawString(wipFont, "CREATING ITS REALM",
+                    new Vector2(windowSize.Center.X - wipFont.MeasureString("CREATING ITS REALM").X / 2f, sizeCorrection), Color.White);
+                sizeCorrection += wipFont.MeasureString("CREATING ITS REALM").Y + 3f;
+                sb.DrawString(wipFont, "THERE ARE GENERATORS",
+                    new Vector2(windowSize.Center.X - wipFont.MeasureString("THERE ARE GENERATORS").X / 2f, sizeCorrection), Color.White);
+                sizeCorrection += wipFont.MeasureString("CREATING ITS REALM").Y + 3f;
+                sb.DrawString(wipFont, "TO BE FIXED IN GENERATOR",
+                    new Vector2(windowSize.Center.X - wipFont.MeasureString("TO BE FIXED IN GENERATOR").X / 2f, sizeCorrection), Color.White);
+                sizeCorrection += wipFont.MeasureString("THERE ARE GENERATORS").Y + 3f;
+                sb.DrawString(wipFont, "PRACTICE, GOOD LUCK",
+                    new Vector2(windowSize.Center.X - wipFont.MeasureString("PRACTICE, GOOD LUCK").X / 2f, sizeCorrection), Color.White);
+                sizeCorrection += wipFont.MeasureString("PRACTICE, GOOD LUCK").Y + 20f;
+                sb.DrawString(wipFont, "-BIGC",
+                    new Vector2((windowSize.Center.X - wipFont.MeasureString("-BIGC").X / 2f) + 100f, sizeCorrection), Color.White);
             }
 
         }
