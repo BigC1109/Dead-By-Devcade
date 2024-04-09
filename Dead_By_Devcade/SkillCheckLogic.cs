@@ -57,7 +57,7 @@ namespace Dead_By_Devcade
         public static void LoadContent(ContentManager contentManager)
         {
             ring = contentManager.Load<Texture2D>("Ring");
-            red = contentManager.Load<Texture2D>("Red");
+            red = contentManager.Load<Texture2D>("Red2");
             skill = contentManager.Load<Texture2D>("Skill");
             objective = contentManager.Load<Texture2D>("Objective");
             font = contentManager.Load<SpriteFont>("scoreFont");
@@ -67,15 +67,15 @@ namespace Dead_By_Devcade
         {
             if (active == true)
             {
-                if (RedLocation < SkillLocation + 0.945f) // + 0.945f
+                if (RedLocation <= SkillLocation + 1f) // + 1f
                 {
                     if (Keyboard.GetState().IsKeyDown(Keys.Space) || Input.GetButton(1, Input.ArcadeButtons.A1))
                     {
-                        if (RedLocation < SkillLocation - 0.08f)
+                        if (RedLocation < SkillLocation - 0.024f)
                         {
                             this.state = Result.FAIL;
                             active = false;
-                        } else if (RedLocation < SkillLocation + 0.16f)
+                        } else if (RedLocation <= SkillLocation + 0.265f)
                         {
                             this.state = Result.GREAT;
                             active = false;
@@ -85,7 +85,7 @@ namespace Dead_By_Devcade
                             active = false;
                         }
                     }
-                    RedLocation += (float)gameTime.ElapsedGameTime.TotalSeconds * 5f;
+                    RedLocation += (float)gameTime.ElapsedGameTime.TotalSeconds * 5f; // 5f
                 } else
                 {
                     this.state = Result.FAIL;
@@ -134,8 +134,8 @@ namespace Dead_By_Devcade
                     SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically, 
                     0);
                 sb.Draw(red, new Vector2(
-                    (float)(((windowSize.Center.X - ring.Width / 4f) + (ring.Height / 4f)) + ((ring.Height / 4f) + 55) * (Math.Cos(RedLocation))),
-                    (float)(((windowSize.Center.Y - 200f) + (ring.Width / 4f)) + ((ring.Width / 4f) + 55) * (Math.Sin(RedLocation)))),
+                    (float)(((windowSize.Center.X - ring.Width / 4f) + (ring.Height / 4f)) + ((ring.Height / 4f) + 42f) * (Math.Cos(RedLocation))),
+                    (float)(((windowSize.Center.Y - 200f) + (ring.Width / 4f)) + ((ring.Width / 4f) + 42f) * (Math.Sin(RedLocation)))),
                     null,
                     Color.White,
                     RedLocation + 1.65f,
@@ -143,6 +143,7 @@ namespace Dead_By_Devcade
                     0.45f,
                     SpriteEffects.None,
                     0);
+
             }
 
             if (this.state == Result.GREAT)
