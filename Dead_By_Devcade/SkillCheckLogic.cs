@@ -85,7 +85,7 @@ namespace Dead_By_Devcade
                             active = false;
                         }
                     }
-                    RedLocation += 0.08f; // FIX THIS, it should work in the way that amount of gametime effects location, used ElapsedTime
+                    RedLocation += (float)gameTime.ElapsedGameTime.TotalSeconds * 5f;
                 } else
                 {
                     this.state = Result.FAIL;
@@ -114,7 +114,7 @@ namespace Dead_By_Devcade
         {
             if (active == true)
             {
-                sb.Draw(ring, new Vector2((windowSize.Center.X / 2f)-12, 
+                sb.Draw(ring, new Vector2(windowSize.Center.X - ring.Width/4f, 
                     windowSize.Center.Y - 200f), 
                     null, 
                     Color.White, 
@@ -124,7 +124,7 @@ namespace Dead_By_Devcade
                     SpriteEffects.None, 
                     0);
                 sb.Draw(skill, new Vector2(
-                    (float)(((windowSize.Center.X / 2f) - 12 + (ring.Height / 4f)) + ((ring.Height / 4f) - 10)* (Math.Cos(SkillLocation))),
+                    (float)(((windowSize.Center.X - ring.Width / 4f) + (ring.Height / 4f)) + ((ring.Height / 4f) - 10)* (Math.Cos(SkillLocation))),
                     (float)(((windowSize.Center.Y - 200f) + (ring.Width / 4f)) + ((ring.Width / 4f) - 10)* (Math.Sin(SkillLocation)))),
                     null, 
                     Color.White, 
@@ -134,7 +134,7 @@ namespace Dead_By_Devcade
                     SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically, 
                     0);
                 sb.Draw(red, new Vector2(
-                    (float)(((windowSize.Center.X / 2f) - 12 + (ring.Height / 4f)) + ((ring.Height / 4f) + 55) * (Math.Cos(RedLocation))),
+                    (float)(((windowSize.Center.X - ring.Width / 4f) + (ring.Height / 4f)) + ((ring.Height / 4f) + 55) * (Math.Cos(RedLocation))),
                     (float)(((windowSize.Center.Y - 200f) + (ring.Width / 4f)) + ((ring.Width / 4f) + 55) * (Math.Sin(RedLocation)))),
                     null,
                     Color.White,

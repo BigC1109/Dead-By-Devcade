@@ -15,6 +15,8 @@ namespace Dead_By_Devcade
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
 
+		public static float scaleFactor;
+
 		/// <summary>
 		/// Stores the window dimensions in a rectangle object for easy use
 		/// </summary>
@@ -37,12 +39,18 @@ namespace Dead_By_Devcade
 		{
 			// Sets up the input library
 			Input.Initialize();
-			//Persistence.Init(); Uncomment if using the persistence section for save and load
+            //Persistence.Init(); Uncomment if using the persistence section for save and load
 
-			// Set window size if running debug (in release it will be fullscreen)
-			#region
+            // Set window size if running debug (in release it will be fullscreen)
+
+            _graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height;
+            _graphics.ApplyChanges();
+
+			/*
+            #region
 #if DEBUG
-			_graphics.PreferredBackBufferWidth = 420;
+            _graphics.PreferredBackBufferWidth = 420;
 			_graphics.PreferredBackBufferHeight = 980;
 			_graphics.ApplyChanges();
 #else
@@ -51,11 +59,13 @@ namespace Dead_By_Devcade
 			_graphics.ApplyChanges();
 #endif
 			#endregion
-			
+			*/
+
 			// TODO: Add your initialization logic here
 
 			windowSize = GraphicsDevice.Viewport.Bounds;
-			
+			scaleFactor = _graphics.PreferredBackBufferWidth / 420;
+
 			base.Initialize();
 		}
 
